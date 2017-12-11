@@ -1,5 +1,5 @@
 /*!
- * jQuery QueryBuilder 2.4.5
+ * jQuery QueryBuilder 2.5.0
  * Copyright 2014-2017 Damien "Mistic" Sorel (http://www.strangeplanet.fr)
  * Licensed under MIT (http://opensource.org/licenses/MIT)
  */
@@ -3180,6 +3180,22 @@ Utils.defineModelProperties = function(obj, fields) {
     });
 };
 
+/**
+ * Defines properties on an Node prototype with getter and setter.<br>
+ *     Update events are emitted in the setter through root Model (if any).<br>
+ *     The object must have a `__` object, non enumerable property to store values.
+ * @param {string} modelName
+ *   one of Model, Node, Group, Rule
+ * @param {string[]} fields
+ */
+Utils.defineModelPropertiesByString = function(modelName, fields) {
+    // Allowing eval here only because the allowed values are very strict
+    if (['Model', 'Node', 'Group', 'Rule'].indexOf(modelName) !== -1) {
+                var obj = eval(modelName);
+        return Utils.defineModelProperties(obj, fields);
+    }
+};
+
 
 /**
  * Main object storing data model and emitting model events
@@ -3802,6 +3818,13 @@ $.fn.queryBuilder.extend = QueryBuilder.extend;
  * @see QueryBuilder.define
  */
 $.fn.queryBuilder.define = QueryBuilder.define;
+
+/**
+ * @function
+ * @memberof external:"jQuery.fn"
+ * @see Utils.defineModelPropertiesByString
+ */
+$.fn.queryBuilder.defineModelPropertiesByString = Utils.defineModelPropertiesByString;
 
 /**
  * @function
@@ -5932,7 +5955,7 @@ QueryBuilder.extend(/** @lends module:plugins.UniqueFilter.prototype */ {
 
 
 /*!
- * jQuery QueryBuilder 2.4.5
+ * jQuery QueryBuilder 2.5.0
  * Locale: English (en)
  * Author: Damien "Mistic" Sorel, http://www.strangeplanet.fr
  * Licensed under MIT (http://opensource.org/licenses/MIT)
